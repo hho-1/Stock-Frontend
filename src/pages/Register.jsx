@@ -9,6 +9,7 @@ import { Box, Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
+import useAuthCall from "../hooks/useAuthCall";
 
 //! Yup ile istediğimiz alanlara istediğimiz validasyon koşullarını oluşturuyoruz. Sonra oluşturduğumuz bu şemayı formike tanımlayarak kullanıyoruz. Böylelikle formik hem formumuzu yönetiyor hem de verdiğimiz validationSchema yı uyguluyor. Dikkat edilmesi gereken husus; formikte tanımladığımız initialValues daki keylerle, Yupta tanımladığımız keylerin aynı olması. Eğer bir harf bile farklı olsa o alanla ilgili yazdığınız validation çalışmaz.
 const SignupSchema = Yup.object().shape({
@@ -36,6 +37,9 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Register = () => {
+
+  const register = useAuthCall()
+
   return (
     <Container maxWidth="lg">
       <Grid
@@ -83,6 +87,7 @@ const Register = () => {
             validationSchema={SignupSchema}
             onSubmit={(values, actions) => {
               console.log(values);
+              register(values)
               actions.resetForm()                     //Formu initialValues'a geri dönderir.
             }}>
             {({
@@ -104,7 +109,7 @@ const Register = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.username && errors.username}
-                    helperText={touched.username && errors.username}
+                    helperText={touched.username && errors.username}           //Bu algoritmalar formikten geliyor
                   />
                   {/* error ve helperText propertyleri Textfield componentine ait propertyler. */}
                   <span>{touched.username && errors.username}</span>
