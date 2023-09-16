@@ -23,15 +23,15 @@ const SignupSchema = Yup.object().shape({
     .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string()
-    .min(8, "En az 8 karakter uzunluğunda olması gerekir!")
+    .min(8, "Minimum8 character!")
     .max(50, "Too Long!")
-    .matches(/\d+/, "En az bir tane rakam içermelidir!")
-    .matches(/[a-z]/, "En az bir tane küçük harf içermelidir!")
-    .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
-    .matches(/[!,?{}><%&$#£+-.]+/, "Password bir özel karakter içermelidir") //regex
+    .matches(/\d+/, "Minimum 1 number!")
+    .matches(/[a-z]/, "Minimum 1 lowercase letter!")
+    .matches(/[A-Z]/, "Minimum 1 uppercase letter!")
+    .matches(/[!,?{}><%&$#£+-.]+/, "Minimum 1 special character!") //regex
     .required("Required"),
   password2: Yup.string()
-    .oneOf([Yup.ref("password")], "Password aynı olmak zorundadır!")
+    .oneOf([Yup.ref("password")], "Must be same with password!")
     .required(),
 });
 
@@ -83,6 +83,7 @@ const Register = () => {
             validationSchema={SignupSchema}
             onSubmit={(values, actions) => {
               console.log(values);
+              actions.resetForm()                     //Formu initialValues'a geri dönderir.
             }}>
             {({
               values,
