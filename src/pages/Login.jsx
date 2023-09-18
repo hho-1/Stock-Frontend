@@ -6,9 +6,13 @@ import Typography from "@mui/material/Typography";
 import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/result.svg";
 import { Link } from "react-router-dom";
-
+import { Formik } from "formik";
+import useAuthCall from "../hooks/useAuthCall";
+import LoginForm, { loginScheme } from "../components/LoginForm";
 
 const Login = () => {
+  const { login } = useAuthCall();
+
   return (
     <Container maxWidth="lg">
       <Grid
@@ -42,6 +46,16 @@ const Login = () => {
             color="secondary.light">
             Login
           </Typography>
+
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validationSchema={loginScheme}
+            onSubmit={(values, actions) => {
+              login(values);
+              actions.resetForm();
+              actions.setSubmitting(false);
+            }}
+            component={props => <LoginForm {...props} />}></Formik>
 
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Link to="/register">Don't have an account? Sign Up</Link>

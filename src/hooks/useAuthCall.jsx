@@ -1,25 +1,85 @@
-import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, registerSuccess } from "../features/authSlice";
 import axios from "axios";
+import {
+  fetchFail,
+  fetchStart,
+  loginSuccess,
+  logoutSuccess,
+  registerSuccess,
+} from "../features/authSlice";
 
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
-const useAuthCall = () => {                     //custom Hook 'use' ile baslamak zorunda
-    const dispatch = useDispatch();               //Bunu direkt olarak kullanamiyorsun, mecburen bir custom hook ile sarmalliyoruz. useAuthCall bir custom hook
-  
-    const register = async userInfo => {
-      dispatch(fetchStart());
-      try {
-        const { data } = await axios.post(
-          "http://16105.fullstack.clarusway.com/account/register/",
-          userInfo
-        );
-        console.log(data);
-        dispatch(registerSuccess(data));
-      } catch (error) {
-        dispatch(fetchFail());
-      }
-    };
-    return register;
+const useAuthCall = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { token } = useSelector(state => state.auth);
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  const login = async userInfo => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}account/auth/login/`,
+        userInfo
+      );
+      dispatch(loginSuccess(data));
+      toastSuccessNotify("Login successful");
+      navigate("/stock");
+      
+    } catch (error) {
+      dispatch(fetchFail());
+      console.log(error);
+toastErrorNotify("Login unsuccessful");
+    }
   };
-  
-  export default useAuthCall;
+
+  const logout = async () => {
+    dispatch(fetchStart());
+    try {
+      // let headers = {
+      //   Authorization: `Token ${token}`,
+      // };
+      await axios.post(`${BASE_URL}account/auth/logout/`, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });// post isteği atılırken axios ikinci parametreyi body olarak kabul eder. O nedenle eğer body bilgisi yoksa ikinci parametreye null veya boş obje tanımlanabilir. 3.parametre de headers verileri gönderilir.
+      dispatch(logoutSuccess());
+      toastSuccessNotify("Logout successful");
+      navigate("/");
+    } catch (err) {
+      dispatch(fetchFail());
+      toastErrorNotify("Logout unsuccessful");
+    }
+  };
+
+  const register = async userInfo => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}account/register/`,
+        userInfo
+      );
+      dispatch(registerSuccess(data));
+      toastSuccessNotify("Register successful");
+      navigate("/stock");
+    } catch (err) {
+      dispatch(fetchFail());
+      if (err.response.status === 400) {
+        for (const [key, value] of Object.entries(err.response.data)) {
+          toastErrorNotify(`${key}: ${value[0]}`);
+        }
+      } else {
+        toastErrorNotify("Register unsuccessful");
+      }
+    }
+  };
+
+  return { login, register, logout };
+};
+
+export default useAuthCall;
+
