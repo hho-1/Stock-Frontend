@@ -17,6 +17,10 @@ const store = configureStore({
   reducer: {
     auth: persistedReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false                     //Bu middleware kismini eklemezsek non-serializable diye bir uyari veriyor.
+    }),
   devTools: process.env.NODE_ENV !== "production",     //Chrome'da devtools eklentisi icin
 });
 

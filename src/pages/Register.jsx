@@ -38,7 +38,7 @@ const SignupSchema = Yup.object().shape({
 
 const Register = () => {
 
-  const register = useAuthCall()
+  const {register} = useAuthCall()
 
   return (
     <Container maxWidth="lg">
