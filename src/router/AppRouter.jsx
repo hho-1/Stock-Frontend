@@ -22,7 +22,7 @@ const AppRouter = () => {
             <Route index element={<Home />} />
             {/** absolute path */}
             <Route path="/stock/products" element={<Products />} />
-            {/** relative path */}
+            {/** relative path -- without slash -- Nested yapilarda relative path kullanimi daha iyi */}           
             <Route path="firms" element={<Firms />} />
             <Route path="purchases" element={<Purchases />} />
             <Route path="sales" element={<Sales />} />

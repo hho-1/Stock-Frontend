@@ -1,45 +1,3 @@
-// import React from "react";
-// import AppBar from "@mui/material/AppBar";
-// import Box from "@mui/material/Box";
-// import CssBaseline from "@mui/material/CssBaseline";
-
-// import Toolbar from "@mui/material/Toolbar";
-// import Button from "@mui/material/Button";
-// import Typography from "@mui/material/Typography";
-
-// import { useSelector } from "react-redux";
-// import useAuthCall from "../hooks/useAuthCall";
-// import { Outlet } from "react-router-dom";
-// import Home from "./Home";
-
-// function Dashboard() {
-//   const { currentUser } = useSelector(state => state.auth);
-//   const { logout } = useAuthCall();
-
-//   return (
-//     <Box sx={{ display: "flex" }}>
-//       <CssBaseline />
-//       <AppBar position="fixed">
-//         <Toolbar>
-//           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-//             STOCK APP
-//           </Typography>
-//           {currentUser && (
-//             <Button color="inherit" onClick={logout}>
-//               Logout
-//             </Button>
-//           )}
-//         </Toolbar>
-//       </AppBar>
-//       <Box sx={{ mt: "15rem" }}>
-//         <Outlet />
-//       </Box>
-//     </Box>
-//   );
-// }
-
-// export default Dashboard;
-
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -59,12 +17,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Outlet } from "react-router-dom";
+import { Button, useTheme } from "@mui/material";
+import { useSelector } from "react-redux";
+import useAuthCall from "../hooks/useAuthCall";
+import MenuListItems from "../components/MenuListItems";
 
 const drawerWidth = 240;
 
 function Dashboard(props) {
   const { window } = props;
+  const {currentUser} = useSelector(state => state.auth);
+  const {logout} = useAuthCall();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const theme = useTheme()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -74,7 +39,7 @@ function Dashboard(props) {
     <div>
       <Toolbar />
       <Divider />
-      <List>
+      {/* <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
@@ -85,9 +50,10 @@ function Dashboard(props) {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
-      <Divider />
-      <List>
+      </List> */}
+      <MenuListItems/>
+      
+      {/* <List>
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
@@ -98,7 +64,7 @@ function Dashboard(props) {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </div>
   );
 
@@ -123,9 +89,16 @@ function Dashboard(props) {
             sx={{ mr: 2, display: { sm: "none" } }}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+          <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+            Stock App
           </Typography>
+          {
+            currentUser && (
+              <Button color="inherit" onClick={logout}>
+                Logout
+              </Button>
+            )
+          }
         </Toolbar>
       </AppBar>
       <Box
@@ -146,6 +119,7 @@ function Dashboard(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              backgroundColor: theme.palette.secondary.main,
             },
           }}>
           {drawer}
@@ -157,6 +131,8 @@ function Dashboard(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              backgroundColor: theme.palette.secondary.main,
+            
             },
           }}
           open>
