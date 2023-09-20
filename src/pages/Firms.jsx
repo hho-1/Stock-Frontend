@@ -44,6 +44,14 @@ const Firms = () => {
   const handleClose = () => setOpen(false);
 
 
+  const [firmData, setFirmData] = React.useState({
+    name: "",
+    phone: "",
+    image:"",
+    address:""
+})
+
+
 
   useEffect(() => {
     // getFirms();
@@ -57,11 +65,11 @@ const Firms = () => {
         Firms
       </Typography>
       <Button variant="contained" onClick={handleOpen}>New Firm</Button>
-      <FirmModal open={open} handleClose={handleClose}/>
+      <FirmModal open={open} handleClose={handleClose} firmData={firmData} setFirmData={setFirmData}/>
       <Grid container alignItems='center' justifyContent='center' spacing={3} mt={3}>
         {firms?.map(firm => (
           <Grid item xs={12} md={6} lg={4} xl={3} key={firm.id}>
-            <FirmCard {...firm} handleOpen={handleOpen}/>
+            <FirmCard {...firm} handleOpen={handleOpen} setFirmData={setFirmData}/>
           </Grid>
         ))}
       </Grid>

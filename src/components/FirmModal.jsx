@@ -1,8 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 //import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+//import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { Button, TextField } from '@mui/material';
+import useStockCall from '../hooks/useStockCall';
 
 const style = {
   position: 'absolute',
@@ -16,29 +18,110 @@ const style = {
   p: 4,
 };
 
-export default function FirmModal({open, handleClose}) {
+export default function FirmModal({open, handleClose, firmData, setFirmData}) {
   
+    /* const [firmData, setFirmData] = React.useState({
+        name: "",
+        phone: "",            bunlari lifting state up yaparak firms'e tasidik.
+        image:"",
+        address:""
+    }) */
+
+    const {postStockData, putStockData} = useStockCall()
+
+    const handleChange = (e) => {
+        setFirmData({...firmData,[e.target.name]:e.target.value})
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(firmData);
+        console.log(firmData.id);
+
+        if(firmData.id){
+            putStockData("firms", firmData);
+        }
+        else{
+            postStockData("firms", firmData);
+        }
+        
+        handleClose()
+        setFirmData({
+                name: "",
+                phone: "",
+                image:"",
+                address:""
+        })
+    }
 
   return (
     <div>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={()=>{
+            handleClose()
+            setFirmData({
+                name: "",
+                phone: "",
+                image:"",
+                address:""
+        })
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }} component='form' onSubmit={handleSubmit}>            {/* component form deyince burayi form olarak algiliyor */}
+                <TextField
+                    label="Firm Name"
+                    name="name"
+                    id="name"
+                    type="text"
+                    variant="outlined"
+                    value={firmData.name}
+                    onChange={handleChange}
+                    required
+                />
+                <TextField
+                    label="Phone"
+                    name="phone"
+                    id="phone"
+                    type="tel"
+                    variant="outlined"
+                    value={firmData.phone}
+                    onChange={handleChange}
+                    required
+                />
+                <TextField
+                    label="Image"
+                    name="image"
+                    id="image"
+                    type="url"
+                    variant="outlined"
+                    value={firmData.image}
+                    onChange={handleChange}
+                    required
+                />
+                <TextField
+                    label="Address"
+                    name="address"
+                    id="address"
+                    type="text"
+                    variant="outlined"
+                    value={firmData.address}
+                    onChange={handleChange}
+                    required
+                />
+                <Button variant="contained" type="submit">
+                    {firmData.id ? "Update" : "Add Firm"}
+                </Button>
+            </Box>
         </Box>
+        
       </Modal>
     </div>
   );
 }
 
 
-//!Buradaki handleOpen ve handleClose fonksiyonlarini parent olan firmse tasiyoruz. Buna Lifting State Up deniyor.
+//!Buradaki handleOpen ve handleClose fonksiyonlarini parent olan firms'e tasiyoruz. Buna Lifting State Up deniyor.

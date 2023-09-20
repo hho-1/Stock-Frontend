@@ -22,7 +22,7 @@ const useStockCall = () => {
         },
       }); */
       const { data } = await axiosWithToken(`stock/${url}/`);
-      console.log(data);
+      
       // dispatch(getSuccess({data, url:"firms"}))
       dispatch(getSuccess({ data, url })); // {data:data,url:url}
     } catch (error) {
@@ -48,8 +48,37 @@ const useStockCall = () => {
       toastErrorNotify("Firm could NOT be deleted!")
     }
   };
+  const postStockData = async (url, firmData) => {
+    dispatch(fetchStart());
+    try {
+      
+      const { data } = await axiosWithToken.post(`stock/${url}/`, firmData);
+      console.log(data);
+      // dispatch(getSuccess({data, url:"firms"}))
+      getStockData(url)
+      toastSuccessNotify("Firm successfully created!")
+    } catch (error) {
+      dispatch(fetchFail());
+      toastErrorNotify("Firm could NOT be created!")
+    }
+  };
 
-  return { getStockData, deleteStockData }
+  const putStockData = async (url, firmData) => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.put(`stock/${url}/${firmData.id}/`, firmData);
+
+      getStockData(url);
+      toastSuccessNotify(`Firm successfuly updated!`);
+    } catch (error) {
+      dispatch(fetchFail());
+      toastErrorNotify(`Firm could NOT be updated!`);
+    }
+  };
+
+
+
+  return { getStockData, deleteStockData, postStockData, putStockData}
 }
 
 export default useStockCall
