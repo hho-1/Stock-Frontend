@@ -29,3 +29,8 @@ const store = configureStore({
 
 export let persistor = persistStore(store)
 export default store;
+
+
+//!prop drilling ---> proplarin statelerle babadan ogula ondan torulara uzun uzun aktarilmasi
+//! Bunun önüne gecmek icin Global State Management toollar kullaniyoruz. (redux, Mobx, Zustand, Context Api vs gibi)
+//? Context Api Reactin kendine ait native bir kütüphane, dugerleri disardan import edilmeli. Cok büyük projelerde context api yetersiz kaliyor.
