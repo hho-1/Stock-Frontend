@@ -14,3 +14,6 @@ const useAxios = () => {
 }
 
 export default useAxios
+
+
+//https://axios-http.com/docs/instance
