@@ -1,24 +1,27 @@
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchFail, fetchStart, getSuccess } from '../features/stockSlice';
-import axios from 'axios';
+//import axios from 'axios';
 import { toastErrorNotify, toastSuccessNotify } from '../helper/ToastNotify';
+import useAxios from './useAxios';
 
 const useStockCall = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector(state => state.auth);
+  //const { token } = useSelector(state => state.auth);
+  const {axiosWithToken} = useAxios()
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  //const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const getStockData = async (url) => {
     dispatch(fetchStart());
     try {
       //const url = "firms";
-      const { data } = await axios(`${BASE_URL}stock/${url}/`, {
+      /* const { data } = await axios(`${BASE_URL}stock/${url}/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
-      });
+      }); */
+      const { data } = await axiosWithToken(`stock/${url}/`);
       console.log(data);
       // dispatch(getSuccess({data, url:"firms"}))
       dispatch(getSuccess({ data, url })); // {data:data,url:url}
@@ -30,11 +33,12 @@ const useStockCall = () => {
     dispatch(fetchStart());
     try {
       //const url = "firms";
-      const { data } = await axios.delete(`${BASE_URL}stock/${url}/${id}/`, {
+      /* const { data } = await axios.delete(`${BASE_URL}stock/${url}/${id}/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
-      });
+      }); */
+      const { data } = await axiosWithToken.delete(`stock/${url}/${id}/`);
       console.log(data);
       // dispatch(getSuccess({data, url:"firms"}))
       getStockData(url)
