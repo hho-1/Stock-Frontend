@@ -8,7 +8,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import useStockCall from "../hooks/useStockCall";
 
-export default function BrandCard({id, name, image}) {
+export default function BrandCard({id, name, image, handleOpen, setBrandData}) {
 
   const {deleteStockData} = useStockCall();
 
@@ -34,7 +34,15 @@ export default function BrandCard({id, name, image}) {
         gap: 2,
       }}>
 
-        <EditIcon sx={{cursor: "pointer", color:"green", "&:hover": {scale:"1.2"}}}/>
+        <EditIcon onClick={()=>{
+          handleOpen()
+          setBrandData({
+            id: id,
+            name: name,
+            image:image
+          })
+          
+        }} sx={{cursor: "pointer", color:"green", "&:hover": {scale:"1.2"}}}/>
         <DeleteOutlineIcon onClick={()=> deleteStockData('brands', id)} sx={{cursor: "pointer", color:"red", "&:hover": {scale:"1.2"}}}/>
       </CardActions>
     </Card>

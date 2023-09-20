@@ -42,10 +42,10 @@ const useStockCall = () => {
       console.log(data);
       // dispatch(getSuccess({data, url:"firms"}))
       getStockData(url)
-      toastSuccessNotify("Firm successfully deleted!")
+      toastSuccessNotify(`${url} successfully deleted!`)
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify("Firm could NOT be deleted!")
+      toastErrorNotify(`${url} could NOT be deleted!`)
     }
   };
   const postStockData = async (url, firmData) => {
@@ -56,10 +56,10 @@ const useStockCall = () => {
       console.log(data);
       // dispatch(getSuccess({data, url:"firms"}))
       getStockData(url)
-      toastSuccessNotify("Firm successfully created!")
+      toastSuccessNotify(`${url} successfully created!`)
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify("Firm could NOT be created!")
+      toastErrorNotify(`${url} could NOT be created!`)
     }
   };
 
@@ -69,10 +69,10 @@ const useStockCall = () => {
       await axiosWithToken.put(`stock/${url}/${firmData.id}/`, firmData);
 
       getStockData(url);
-      toastSuccessNotify(`Firm successfuly updated!`);
+      toastSuccessNotify(`${url} successfuly updated!`);
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify(`Firm could NOT be updated!`);
+      toastErrorNotify(`${url} could NOT be updated!`);
     }
   };
 
