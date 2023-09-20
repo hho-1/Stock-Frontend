@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button, TextField } from '@mui/material';
 import useStockCall from '../hooks/useStockCall';
+import InputMask from 'react-input-mask';
 
 const style = {
   position: 'absolute',
@@ -35,8 +36,6 @@ export default function FirmModal({open, handleClose, firmData, setFirmData}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(firmData);
-        console.log(firmData.id);
 
         if(firmData.id){
             putStockData("firms", firmData);
@@ -46,12 +45,12 @@ export default function FirmModal({open, handleClose, firmData, setFirmData}) {
         }
         
         handleClose()
-        setFirmData({
+        /* setFirmData({
                 name: "",
                 phone: "",
                 image:"",
                 address:""
-        })
+        }) */
     }
 
   return (
@@ -60,12 +59,12 @@ export default function FirmModal({open, handleClose, firmData, setFirmData}) {
         open={open}
         onClose={()=>{
             handleClose()
-            setFirmData({
-                name: "",
+            /* setFirmData({
+                name: "",                bu ve alttaki setFirmData'yi firms'e tasidik, tekrardan kurtulmak icin
                 phone: "",
                 image:"",
                 address:""
-        })
+        }) */
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -82,16 +81,19 @@ export default function FirmModal({open, handleClose, firmData, setFirmData}) {
                     onChange={handleChange}
                     required
                 />
-                <TextField
-                    label="Phone"
+                <InputMask
+                    mask="+4\9 99 999 99"
+                    maskChar="_"
+                    value={firmData.phone}
+                    onChange={handleChange}
                     name="phone"
                     id="phone"
                     type="tel"
-                    variant="outlined"
-                    value={firmData.phone}
-                    onChange={handleChange}
-                    required
-                />
+                    required>
+                    {inputProps => (
+                        <TextField {...inputProps} label="Phone" variant="outlined" />
+                    )}
+                </InputMask>
                 <TextField
                     label="Image"
                     name="image"

@@ -41,7 +41,15 @@ const Firms = () => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
+    setFirmData({
+      name: "",
+      phone: "",
+      image:"",
+      address:""
+    })
+  };
 
 
   const [firmData, setFirmData] = React.useState({

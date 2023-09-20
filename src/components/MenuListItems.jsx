@@ -76,7 +76,7 @@ const MenuListItems = () => {
       ))}
       {isAdmin && externalLinks.map((item, index) => (
         <ListItem key={item.title} disablePadding>
-          <ListItemButton to={item.url} target='true'>            {/* Üstteki linklerden farkli olduguna dikkat et. navigate degil burasi */}
+          <ListItemButton to={item.url} target='true' sx={iconStyle}>            {/* Üstteki linklerden farkli olduguna dikkat et. navigate degil burasi */}
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.title} />
           </ListItemButton>
