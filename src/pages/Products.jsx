@@ -3,6 +3,7 @@ import useStockCall from "../hooks/useStockCall";
 import Container from "@mui/material/Container";
 import { Button,Typography } from "@mui/material";
 import ProductModal from "../components/modals/ProductModal";
+import ProductTable from "../components/ProductTable";
 
 
 const Products = () => {
@@ -26,7 +27,9 @@ const Products = () => {
   });
 
   useEffect(() => {
-    getStockData("Products");
+    getStockData("products");
+    getStockData("categories");
+    getStockData("brands");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -39,6 +42,7 @@ const Products = () => {
         New Product
       </Button>
       <ProductModal open={open} handleClose={handleClose} info={info} setInfo={setInfo} />
+      <ProductTable/>
       
     </Container>
   );
