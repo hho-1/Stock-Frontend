@@ -4,7 +4,7 @@ import Container from "@mui/material/Container"
 import { Button, Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import BrandCard from "../components/BrandCard";
-import BrandModal from "../components/BrandModal";
+import BrandModal from "../components/modals/BrandModal";
 
 const Brands = () => {
   

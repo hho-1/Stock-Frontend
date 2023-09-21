@@ -1,8 +1,11 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+//import Button from '@mui/material/Button';
+//import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Button, TextField } from '@mui/material';
-import useStockCall from '../hooks/useStockCall';
+import useStockCall from '../../hooks/useStockCall';
+import InputMask from 'react-input-mask';
 
 const style = {
   position: 'absolute',
@@ -16,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function BrandModal({open, handleClose, brandData, setBrandData}) {
+export default function FirmModal({open, handleClose, firmData, setFirmData}) {
   
     /* const [firmData, setFirmData] = React.useState({
         name: "",
@@ -28,17 +31,17 @@ export default function BrandModal({open, handleClose, brandData, setBrandData})
     const {postStockData, putStockData} = useStockCall()
 
     const handleChange = (e) => {
-        setBrandData({...brandData,[e.target.name]:e.target.value})
+        setFirmData({...firmData,[e.target.name]:e.target.value})
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(brandData.id){
-            putStockData("brands", brandData);
+        if(firmData.id){
+            putStockData("firms", firmData);
         }
         else{
-            postStockData("brands", brandData);
+            postStockData("firms", firmData);
         }
         
         handleClose()
@@ -74,22 +77,45 @@ export default function BrandModal({open, handleClose, brandData, setBrandData})
                     id="name"
                     type="text"
                     variant="outlined"
-                    value={brandData.name}
+                    value={firmData.name}
                     onChange={handleChange}
                     required
                 />
+                <InputMask
+                    mask="+4\9 99 999 99"
+                    maskChar="_"
+                    value={firmData.phone}
+                    onChange={handleChange}
+                    name="phone"
+                    id="phone"
+                    type="tel"
+                    required>
+                    {inputProps => (
+                        <TextField {...inputProps} label="Phone" variant="outlined" />
+                    )}
+                </InputMask>
                 <TextField
                     label="Image"
                     name="image"
                     id="image"
                     type="url"
                     variant="outlined"
-                    value={brandData.image}
+                    value={firmData.image}
+                    onChange={handleChange}
+                    required
+                />
+                <TextField
+                    label="Address"
+                    name="address"
+                    id="address"
+                    type="text"
+                    variant="outlined"
+                    value={firmData.address}
                     onChange={handleChange}
                     required
                 />
                 <Button variant="contained" type="submit">
-                    {brandData.id ? "Update" : "Add Firm"}
+                    {firmData.id ? "Update" : "Add Firm"}
                 </Button>
             </Box>
         </Box>
