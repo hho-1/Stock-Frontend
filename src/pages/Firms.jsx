@@ -68,7 +68,7 @@ const Firms = () => {
   }, []);
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" align='center'>
       <Typography color="error" variant="h4" mb={3}>
         Firms
       </Typography>

@@ -84,7 +84,7 @@ const useStockCall = () => {
     try {
       
       //const products = axiosWithToken(`stock/${url}/`);
-      const [products, brands,categories] = await Promise.all([
+      const [products, brands, categories] = await Promise.all([
         axiosWithToken(`stock/products/`),
         axiosWithToken(`stock/brands/`),
         axiosWithToken(`stock/categories/`),
