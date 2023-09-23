@@ -19,7 +19,6 @@ export default function ProductModal({ open, handleClose, info, setInfo }) {
     setInfo({ ...info, [e.target.name]: e.target.value });
   };
 
-  console.log("info", info);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -50,7 +49,7 @@ export default function ProductModal({ open, handleClose, info, setInfo }) {
                 label="Category"
                 onChange={handleChange}>
                 {categories?.map(item => (
-                  <MenuItem value={item.id}>{item.name}</MenuItem>
+                  <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -64,7 +63,7 @@ export default function ProductModal({ open, handleClose, info, setInfo }) {
                 label="Brand"
                 onChange={handleChange}>
                 {brands?.map(item => (
-                  <MenuItem value={item.id}>{item.name}</MenuItem>
+                  <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
