@@ -90,7 +90,7 @@ const useStockCall = () => {
         axiosWithToken(`stock/categories/`),
       ]);
       
-      dispatch(getProCatBrandSuccess([products?.data, brands?.data,categories?.data]))
+      dispatch(getProCatBrandSuccess([products?.data, brands?.data, categories?.data]))
     } catch (error) {
       dispatch(fetchFail());
     }

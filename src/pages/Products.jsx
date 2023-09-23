@@ -8,7 +8,7 @@ import ProductTable from "../components/ProductTable";
 
 const Products = () => {
   
-  const { getStockData, getProCatBrand } = useStockCall();
+  const { /* getStockData, */ getProCatBrand } = useStockCall();
   //*Modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
