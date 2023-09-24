@@ -18,27 +18,27 @@ export default function KpiCards() {
     const categories = [
         {
           title: "Sales",
-          metric: `${totalSales}`,
+          metric: `€ ${totalSales}`,
           icon: TicketIcon,
           color: "indigo",
         },
         {
           title: "Profit",
-          metric: `${totalProfit}`,
+          metric: `€ ${totalProfit}`,
           icon: FaMoneyCheckAlt,
           color: "lime",
 
         },
         {
           title: "Purchases",
-          metric: `${totalPurchases}`,
+          metric: `€ ${totalPurchases}`,
           icon: PiShoppingCartDuotone,
-          color: "amber",
+          color: "fuchsia",
         },
       ];
       
   return (
-    <Grid numItemsSm={2} numItemsLg={3} className="gap-6 mt-5">
+    <Grid  numItemsSm={2} numItemsLg={3} className="gap-6 mt-5">
       {categories.map((item) => (
         <Card key={item.title} decoration="top" decorationColor={item.color}>
           <Flex justifyContent="start" className="space-x-4">

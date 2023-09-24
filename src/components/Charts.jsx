@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 
 const valueFormatterAbsolute = (number) =>
-  Intl.NumberFormat("us").format(number).toString();
+  Intl.NumberFormat("de-DE", {style:'currency', currency:'EUR'}).format(number).toString();
 
 export default function Charts() {
   const {sales,purchases} = useSelector(state => state.stock)
@@ -21,14 +21,14 @@ export default function Charts() {
     Date: item.createds,
     sale: Number(item.price_total),// sales verisi string olarak geldiği için numbera dönüştürme işlemi yaptık
   }));
-  console.log(salesData)
+  //console.log(salesData)
   const purchasesData = purchases.map(item => ({
     Date: item.createds,
     purchase: Number(item.price_total),
   }));  
 
   return (
-    <Card>
+    <Card className="mt-6">
       <TabGroup>
         <div className="block sm:flex sm:justify-between">
           <div>
@@ -52,7 +52,7 @@ export default function Charts() {
               colors={["blue"]}
               showLegend={false}
               valueFormatter={valueFormatterAbsolute}
-              yAxisWidth={40}
+              yAxisWidth={80}
             />
           </TabPanel>
           <TabPanel>
@@ -64,7 +64,7 @@ export default function Charts() {
               colors={["red"]}
               showLegend={false}
               valueFormatter={valueFormatterAbsolute}
-              yAxisWidth={40}
+              yAxisWidth={80}
             />
           </TabPanel>
         </TabPanels>
