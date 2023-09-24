@@ -84,13 +84,15 @@ const useStockCall = () => {
     try {
       
       //const products = axiosWithToken(`stock/${url}/`);
-      const [products, brands, categories] = await Promise.all([
+      const [products, brands, categories, sales, purchases] = await Promise.all([
         axiosWithToken(`stock/products/`),
         axiosWithToken(`stock/brands/`),
         axiosWithToken(`stock/categories/`),
+        axiosWithToken(`stock/sales/`),
+        axiosWithToken(`stock/purchases/`),
       ]);
       
-      dispatch(getProCatBrandSuccess([products?.data, brands?.data, categories?.data]))
+      dispatch(getProCatBrandSuccess([products?.data, brands?.data, categories?.data, sales?.data, purchases?.data]))
     } catch (error) {
       dispatch(fetchFail());
     }

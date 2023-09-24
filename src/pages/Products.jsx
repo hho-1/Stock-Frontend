@@ -3,7 +3,7 @@ import useStockCall from "../hooks/useStockCall";
 import Container from "@mui/material/Container";
 import { Button,Typography } from "@mui/material";
 import ProductModal from "../components/modals/ProductModal";
-import ProductTable from "../components/ProductTable";
+import ProductTable from "../components/tables/ProductTable";
 
 
 const Products = () => {
@@ -37,7 +37,7 @@ const Products = () => {
   }, []);
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" align='center'>
       <Typography color="error" variant="h4" mb={3}>
         Products
       </Typography>

@@ -2,7 +2,8 @@ import { Card, Metric, Text, Icon, Flex, Grid } from "@tremor/react";
 
 import { TicketIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
-import { FaMoneyCheckAlt, FaShoppingCart } from "react-icons/fa";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+import { PiShoppingCartDuotone } from "react-icons/pi";
 
 
 export default function KpiCards() {
@@ -31,7 +32,7 @@ export default function KpiCards() {
         {
           title: "Purchases",
           metric: `${totalPurchases}`,
-          icon: FaShoppingCart,
+          icon: PiShoppingCartDuotone,
           color: "amber",
         },
       ];

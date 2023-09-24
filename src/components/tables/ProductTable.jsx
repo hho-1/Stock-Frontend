@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { btnStyle } from "../styles/globalStyle";
-import useStockCall from "../hooks/useStockCall";
+import { btnStyle } from "../../styles/globalStyle";
+import useStockCall from "../../hooks/useStockCall";
 
 
 
