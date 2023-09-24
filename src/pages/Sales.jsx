@@ -8,7 +8,7 @@ import SalesModal from "../components/modals/SalesModal";
 
 const Sales = () => {
   
-  const { getProCatBrand } = useStockCall();
+  const { getProPurcSalesCatBrand } = useStockCall();
   //*Modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -35,7 +35,7 @@ const Sales = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     //getStockData("sales")
-    getProCatBrand()
+    getProPurcSalesCatBrand()
   }, []);
 
   return (

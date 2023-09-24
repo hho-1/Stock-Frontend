@@ -8,7 +8,7 @@ import PurchaseTable from "../components/tables/PurchaseTable";
 
 const Purchases = () => {
   
-  const { getProCatBrand } = useStockCall();
+  const { getProPurcSalesCatBrand } = useStockCall();
   //*Modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -37,7 +37,7 @@ const Purchases = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     //getStockData("sales")
-    getProCatBrand()
+    getProPurcSalesCatBrand()
   }, []);
 
   return (

@@ -54,7 +54,7 @@ export default function PurchaseTable({handleOpen, setInfo, firm_id, product_id,
         type: "number",
         headerAlign: "center",
         align:"center",
-        flex:2
+        flex:1
       },
       {
         field: "price",

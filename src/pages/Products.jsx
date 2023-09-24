@@ -8,7 +8,7 @@ import ProductTable from "../components/tables/ProductTable";
 
 const Products = () => {
   
-  const { /* getStockData, */ getProCatBrand } = useStockCall();
+  const { /* getStockData, */ getProPurcSalesCatBrand } = useStockCall();
   //*Modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -33,7 +33,7 @@ const Products = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     //Promise kullanacagimiz icin üsttekiler yerine alttaki yeni fonksiyonumu kullaniyorum. Bu sekilde asenkron veri gelisi daha senkronize oluyor ve hizlaniyor.
-    getProCatBrand()
+    getProPurcSalesCatBrand()
   }, []);
 
   return (

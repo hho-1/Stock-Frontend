@@ -46,9 +46,9 @@ export default function PurchaseModal({ open, handleClose, info, setInfo }) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="brand_id"
+                name="firm_id"
                 value={info.firm_id}
-                label="Brand"
+                label="Firm"
                 onChange={handleChange}>
                 {firms?.map(item => (
                   <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
@@ -104,7 +104,7 @@ export default function PurchaseModal({ open, handleClose, info, setInfo }) {
             />
 
             <Button variant="contained" type="submit">
-              Add Sales
+              Add Purchase
             </Button>
           </Box>
         </Box>

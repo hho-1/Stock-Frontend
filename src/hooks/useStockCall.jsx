@@ -1,6 +1,6 @@
 
 import { useDispatch } from 'react-redux';
-import { fetchFail, fetchStart, getProCatBrandSuccess, getSuccess } from '../features/stockSlice';
+import { fetchFail, fetchStart, getProCatBrandSuccess, getSuccess, getPurSalesSuccess } from '../features/stockSlice';
 //import axios from 'axios';
 import { toastErrorNotify, toastSuccessNotify } from '../helper/ToastNotify';
 import useAxios from './useAxios';
@@ -79,12 +79,13 @@ const useStockCall = () => {
 
   //!Promise All 
 
-  const getProCatBrand = async (url) => {
+  const getProPurcSalesCatBrand = async (url) => {
     dispatch(fetchStart());
     try {
       
       //const products = axiosWithToken(`stock/${url}/`);
-      const [products, brands, categories, sales, purchases] = await Promise.all([
+      const [firms, products, brands, categories, sales, purchases] = await Promise.all([
+        axiosWithToken(`stock/firms/`),
         axiosWithToken(`stock/products/`),
         axiosWithToken(`stock/brands/`),
         axiosWithToken(`stock/categories/`),
@@ -92,7 +93,21 @@ const useStockCall = () => {
         axiosWithToken(`stock/purchases/`),
       ]);
       
-      dispatch(getProCatBrandSuccess([products?.data, brands?.data, categories?.data, sales?.data, purchases?.data]))
+      dispatch(getProCatBrandSuccess([firms?.data, products?.data, brands?.data, categories?.data, sales?.data, purchases?.data]))
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
+
+  const getPurSales = async () => {
+    dispatch(fetchStart());
+    try {
+      const [purchases, sales] = await Promise.all([
+        axiosWithToken.get(`stock/purchases/`),
+        axiosWithToken.get(`stock/sales/`),
+      ]);
+
+      dispatch(getPurSalesSuccess([purchases?.data, sales?.data]));
     } catch (error) {
       dispatch(fetchFail());
     }
@@ -100,7 +115,7 @@ const useStockCall = () => {
 
 
 
-  return { getStockData, deleteStockData, postStockData, putStockData, getProCatBrand}
+  return { getStockData, deleteStockData, postStockData, putStockData, getProPurcSalesCatBrand, getPurSales}
 }
 
 export default useStockCall

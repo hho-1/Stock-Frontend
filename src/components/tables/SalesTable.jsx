@@ -21,7 +21,7 @@ export default function SalesTable({handleOpen, setInfo, product_id, brand_id, q
         width: 150,
         align:"center", 
         headerAlign: "center",
-        flex:1
+        flex:2
        },
       {
         field: "brand",
@@ -29,7 +29,7 @@ export default function SalesTable({handleOpen, setInfo, product_id, brand_id, q
         width: 150,
         headerAlign: "center",
         align:"center",
-        flex:3
+        flex:2
       },
       {
         field: "product",
@@ -46,7 +46,7 @@ export default function SalesTable({handleOpen, setInfo, product_id, brand_id, q
         type: "number",
         headerAlign: "center",
         align:"center",
-        flex:3
+        flex:1
       },
       {
         field: "price",

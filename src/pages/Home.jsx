@@ -6,13 +6,15 @@ import useStockCall from '../hooks/useStockCall'
 
 const Home = () => {
 
-  const { getStockData} = useStockCall();
+  const { getStockData, getPurSales} = useStockCall();
     
     useEffect(() => {
         // getFirms();
-        getStockData("sales");
-        getStockData("purchases");
+        //getStockData("sales");
+        //getStockData("purchases");
         // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        getPurSales()
     }, []);
 
   return (
