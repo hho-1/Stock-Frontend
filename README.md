@@ -12,3 +12,7 @@ A stock app is designed for exercising many topics at the same time such as:
 - MUI data-grid for tables in sales and purchases pages
 - Global styles for commonly used codes
 - Redux Persist for registering data to local storage
+
+### Project Outcome:
+https://stock-4839z6umd-hho-1.vercel.app/
+
