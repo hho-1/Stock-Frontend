@@ -11,3 +11,4 @@ A stock app is designed for exercising many topics at the same time such as:
 - Toastify for success and error notifications
 - MUI data-grid for tables in sales and purchases pages
 - Global styles for commonly used codes
+- Redux Persist for registering data to local storage
