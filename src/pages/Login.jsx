@@ -25,7 +25,7 @@ const Login = () => {
         }}>
         <Grid item xs={12} mb={3}>
           <Typography variant="h3" color="primary" align="center">
-            STOCK APP
+            TRADE APP
           </Typography>
         </Grid>
 
