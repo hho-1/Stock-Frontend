@@ -16,7 +16,7 @@ export default function PurchaseModal({ open, handleClose, info, setInfo }) {
   const { firms, brands, products } = useSelector(state => state.stock);
 
   const handleChange = e => {
-    setInfo({ ...info, [e.target.name]: e.target.value });
+    setInfo({ ...info, [e.target.name]: Number(e.target.value) });
   };
   
 
@@ -88,6 +88,7 @@ export default function PurchaseModal({ open, handleClose, info, setInfo }) {
               name="quantity"
               id="quantity"
               variant="outlined"
+              type="number"
               value={info.quantity}
               onChange={handleChange}
               required
@@ -96,7 +97,7 @@ export default function PurchaseModal({ open, handleClose, info, setInfo }) {
               label="Price"
               name="price"
               id="price"
-              type="text"
+              type="number"
               variant="outlined"
               value={info.price}
               onChange={handleChange}

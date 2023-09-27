@@ -16,7 +16,7 @@ export default function SalesModal({ open, handleClose, info, setInfo }) {
   const { brands, products } = useSelector(state => state.stock);
 
   const handleChange = e => {
-    setInfo({ ...info, [e.target.name]: e.target.value });
+    setInfo({ ...info, [e.target.name]: Number(e.target.value) });
   };
   
 
