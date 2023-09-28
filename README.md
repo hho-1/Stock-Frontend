@@ -1,4 +1,4 @@
-# Stock-App
+# Trade-App
 ## Description
 
 A stock app is designed for exercising many topics at the same time such as:
