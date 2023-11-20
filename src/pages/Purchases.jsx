@@ -38,6 +38,7 @@ const Purchases = () => {
 
     //getStockData("sales")
     getProPurcSalesCatBrand()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
