@@ -100,7 +100,7 @@ export default function PurchaseTable({handleOpen, setInfo, firm_id, product_id,
                 sx={{cursor: "pointer", color:"green", "&:hover": {scale:"1.2"}}}
                 />
                 <DeleteOutlineIcon
-                    onClick={() => deleteStockData("sales", params.id)}
+                    onClick={() => deleteStockData("purchases", params.id)}
                     sx={{cursor: "pointer", color:"red", "&:hover": {scale:"1.2"}}} 
                 />
           </div>
