@@ -1,59 +1,55 @@
-import { useEffect, useState } from "react";
-import useStockCall from "../hooks/useStockCall";
-import Container from "@mui/material/Container";
-import { Button,Typography } from "@mui/material";
-import SalesTable from "../components/tables/SalesTable";
-import SalesModal from "../components/modals/SalesModal";
-
+import { Button } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import { useEffect, useState } from "react"
+import useStockCall from "../hooks/useStockCall"
+import SaleModal from "../components/SaleModal"
+import SaleTable from "../components/SaleTable"
 
 const Sales = () => {
-  
-  const { getProPurcSalesCatBrand } = useStockCall();
-  //*Modal
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    setInfo({
-      brand_id: "",
-      product_id: "",
-      quantity: "",
-      price: "",
-    });
-  };
+  const { getStockData, getProdCatBrands } = useStockCall()
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = () => setOpen(true)
+
   const [info, setInfo] = useState({
-      brand_id: "",
-      product_id: "",
-      quantity: "",
-      price: "",
-  });
+    brand_id: "",
+    product_id: "",
+    quantity: "",
+    price: "",
+  })
+
+  const handleClose = () => {
+    setOpen(false)
+    setInfo({ brand_id: "", product_id: "", quantity: "", price: "" })
+  }
 
   useEffect(() => {
-    /* getStockData("products");
-    getStockData("categories");
-    getStockData("brands"); */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    //getStockData("sales")
-    getProPurcSalesCatBrand()
-  }, []);
-
+    getProdCatBrands()
+    getStockData("sales")
+  }, []) // eslint-disable-line
   return (
-    <Container maxWidth="xl" align='center'>
-      <Typography color="error" variant="h4" mb={3}>
+    <div>
+      <Typography variant="h4" color="error" mb={3}>
         Sales
       </Typography>
-      <Button variant="contained" onClick={handleOpen}>
+      <Button
+        variant="contained"
+        sx={{ marginBottom: "1rem" }}
+        onClick={() => setOpen(true)}
+      >
         New Sale
       </Button>
-      <SalesModal open={open} handleClose={handleClose} info={info} setInfo={setInfo} />
-      <SalesTable handleOpen={handleOpen} info={info} setInfo={setInfo}/>
-      
-      
-    </Container>
-  );
-};
 
-export default Sales;
+      <SaleModal
+        open={open}
+        handleClose={handleClose}
+        info={info}
+        setInfo={setInfo}
+      />
 
-//* Lifting State Up
+      <SaleTable handleOpen={handleOpen} setInfo={setInfo} />
+    </div>
+  )
+}
+
+export default Sales

@@ -1,55 +1,56 @@
-import React, { useEffect } from "react";
-import useStockCall from "../hooks/useStockCall";
-import Container from "@mui/material/Container"
-import { Button, Grid, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import BrandCard from "../components/BrandCard";
-import BrandModal from "../components/modals/BrandModal";
+import { Typography, Box, Grid, Alert, Button } from "@mui/material"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import BrandCard from "../components/BrandCard"
+import BrandModal from "../components/BrandModal"
+import useStockCall from "../hooks/useStockCall"
+import { flex } from "../styles/globalStyles"
 
 const Brands = () => {
-  
-  const { getStockData} = useStockCall();
-  const {brands} = useSelector(state=> state.stock)
-
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false)
-    setBrandData({
-      name: "",
-      image:""
-    })
-  };
-
-
-  const [brandData, setBrandData] = React.useState({
-    name: "",
-    image:""
-})
+  const { getStockData } = useStockCall()
+  const { brands, loading } = useSelector((state) => state.stock)
+  const [open, setOpen] = useState(false)
+  const [info, setInfo] = useState({})
 
   useEffect(() => {
-    // getFirms();
-    getStockData("brands");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getStockData("brands")
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Container maxWidth="xl" align='center'>
-      <Typography color="error" variant="h4" mb={3}>
+    <Box>
+      <Typography variant="h4" color="error" mb={2}>
         Brands
       </Typography>
-      <Button variant="contained" onClick={handleOpen}>New Brand</Button>
-      <BrandModal open={open} handleClose={handleClose} brandData={brandData} setBrandData={setBrandData}/>
-      <Grid container alignItems='center' justifyContent='center' spacing={3} mt={3}>
-        {brands?.map(brand => (
-          <Grid item xs={12} md={6} lg={4} xl={3} key={brand.id}>
-            <BrandCard {...brand} handleOpen={handleOpen} setBrandData={setBrandData}/>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
-  );
-};
 
-export default Brands;
+      <Button
+        variant="contained"
+        onClick={() => {
+          setInfo({})
+          setOpen(true)
+        }}
+      >
+        New Brand
+      </Button>
+
+      <BrandModal open={open} setOpen={setOpen} info={info} setInfo={setInfo} />
+
+      {!loading && !brands?.length && (
+        <Alert severity="warning" sx={{ mt: 4, width: "50%" }}>
+          There is no brand to show
+        </Alert>
+      )}
+
+      {brands?.length > 0 && (
+        <Grid container sx={flex} mt={4}>
+          {brands?.map((brand) => (
+            <Grid item key={brand.id}>
+              <BrandCard brand={brand} setOpen={setOpen} setInfo={setInfo} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+    </Box>
+  )
+}
+
+export default Brands

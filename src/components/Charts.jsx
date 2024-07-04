@@ -1,74 +1,54 @@
-import {
-  Card,
-  Title,
-  LineChart,
-  TabList,
-  Tab,
-  TabGroup,
-  TabPanel,
-  TabPanels,
-} from "@tremor/react";
-import { useSelector } from "react-redux";
+import { Card, Title, LineChart } from "@tremor/react"
+import { useSelector } from "react-redux"
+import Grid from "@mui/material/Grid"
 
+const dataFormatter = (number) =>
+  `${Intl.NumberFormat("us").format(number).toString()}`
 
-const valueFormatterAbsolute = (number) =>
-  Intl.NumberFormat("de-DE", {style:'currency', currency:'EUR'}).format(number).toString();
+const Charts = () => {
+  const { sales, purchases } = useSelector((state) => state.stock)
 
-export default function Charts() {
-  const {sales,purchases} = useSelector(state => state.stock)
+  const salesData = sales?.map((item) => ({
+    date: item.createds,
+    quantity: item.quantity,
+    price: Number(item.price_total),
+  }))
 
-  const salesData = sales.map(item => ({
-    Date: item.createds,
-    sale: Number(item.price_total),// sales verisi string olarak geldiği için numbera dönüştürme işlemi yaptık
-  }));
-  //console.log(salesData)
-  const purchasesData = purchases.map(item => ({
-    Date: item.createds,
-    purchase: Number(item.price_total),
-  }));  
+  const purchasesData = purchases?.map((item) => ({
+    date: item.createds,
+    price: Number(item.price_total),
+  }))
 
   return (
-    <Card className="mt-6">
-      <TabGroup>
-        <div className="block sm:flex sm:justify-between">
-          <div>
-            <Title>Sales and Purchases</Title>
-            {/* <Text>Lost customers per day</Text> */}
-          </div>
-          <div className="mt-4 sm:mt-0">
-            <TabList variant="solid">
-              <Tab>Sales</Tab>
-              <Tab>Purchases</Tab>
-            </TabList>
-          </div>
-        </div>
-        <TabPanels>
-          <TabPanel>
-            <LineChart
-              className="mt-8 h-80"
-              data={salesData}
-              index="Date"
-              categories={["sale"]}
-              colors={["blue"]}
-              showLegend={false}
-              valueFormatter={valueFormatterAbsolute}
-              yAxisWidth={80}
-            />
-          </TabPanel>
-          <TabPanel>
-            <LineChart
-              className="mt-8 h-80"
-              data={purchasesData}
-              index="Date"
-              categories={["purchase"]}
-              colors={["red"]}
-              showLegend={false}
-              valueFormatter={valueFormatterAbsolute}
-              yAxisWidth={80}
-            />
-          </TabPanel>
-        </TabPanels>
-      </TabGroup>
-    </Card>
-  );
+    <Grid container justifyContent="center" spacing={3} mt={4}>
+      <Grid item xs={12} md={6}>
+        <Card>
+          <Title>Total Sales</Title>
+          <LineChart
+            className="mt-4"
+            data={salesData}
+            index="date"
+            categories={["quantity", "price"]}
+            colors={["red", "blue"]}
+            valueFormatter={dataFormatter}
+          />
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <Card>
+          <Title>Total Purchases</Title>
+          <LineChart
+            className="mt-4"
+            data={purchasesData}
+            index="date"
+            categories={["price"]}
+            colors={["green"]}
+            valueFormatter={dataFormatter}
+          />
+        </Card>
+      </Grid>
+    </Grid>
+  )
 }
+export default Charts

@@ -1,27 +1,25 @@
-import { Typography } from '@mui/material'
-import React, { useEffect } from 'react'
-import KpiCards from '../components/KpiCards'
-import Charts from '../components/Charts'
-import useStockCall from '../hooks/useStockCall'
+import { Typography } from "@mui/material"
+import KpiCards from "../components/KpiCards"
+import Charts from "../components/Charts"
+import useStockCall from "../hooks/useStockCall"
+import { useEffect } from "react"
 
 const Home = () => {
-
-  const { getStockData, getPurSales} = useStockCall();
-    
-    useEffect(() => {
-        // getFirms();
-        //getStockData("sales");
-        //getStockData("purchases");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-
-        getPurSales()
-    }, []);
+  const { getStockData } = useStockCall()
+  useEffect(() => {
+    getStockData("sales")
+    getStockData("purchases")
+  }, [])
 
   return (
     <div>
-      <Typography variant='h4' color='error' align='center' mc={3}>Dashboard</Typography>
-      <KpiCards/>
-      <Charts/>
+      <Typography variant="h4" color="error" mb={2}>
+        Dashboard
+      </Typography>
+
+      <KpiCards />
+
+      <Charts />
     </div>
   )
 }

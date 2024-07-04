@@ -1,59 +1,61 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActions, CardHeader } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit"
+import * as React from "react"
+import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
+import CardContent from "@mui/material/CardContent"
+import CardMedia from "@mui/material/CardMedia"
+import Typography from "@mui/material/Typography"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import useStockCall from "../hooks/useStockCall";
+import EditIcon from "@mui/icons-material/Edit"
+import { btnStyle } from "../styles/globalStyles"
+import useStockCall from "../hooks/useStockCall"
 
-export default function FirmCard({id, name, phone, address, image, handleOpen, setFirmData}) {
-
-  const {deleteStockData} = useStockCall();
+export default function FirmCard({ firm, handleOpen, info, setInfo }) {
+  const { deleteStockData } = useStockCall()
 
   return (
-    <Card sx={{ maxWidth: 345, maxHeight: 375, minHeight: 375, display:"flex", flexDirection:'column', justifyContent:'space-between'}}>
-      
+    <Card
+      sx={{
+        p: 2,
+        width: "300px",
+        height: "400px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
       <CardContent>
-        {/* <Typography gutterBottom variant="h5" component="div">
-          {name}
+        <Typography gutterBottom variant="h5" component="div">
+          {firm.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Address: {address}
-        </Typography> */}
-        <CardHeader title={name} subheader={address}/>                 {/* Üstteki yapinin aynisini sadece bu satirla kurabiliyoruz. */}
-        <Typography variant="body2" color="text.secondary" ml={2}>
-          Phone: {phone}
+          {firm.address}
         </Typography>
       </CardContent>
       <CardMedia
-        component='img'                             /* Buraya component img seklinde belirtmezsen bi alkt satirdaki objectfit gibi özellikleri uygulamaz. */
-        sx={{ height: 140, objectFit:"contain"}}
-        image={image}
-        title={name}
+        sx={{ p: 1, objectFit: "contain", height: 140 }}
+        image={firm.image}
+        title={firm.name}
+        component="img"
       />
-      <CardActions
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 2,
-      }}>
 
-        <EditIcon onClick={()=>{
-          handleOpen()
-          setFirmData({
-            id: id,
-            name: name,
-            phone: phone,
-            image:image,
-            address: address
-          })
-          
-        }} sx={{cursor: "pointer", color:"green", "&:hover": {scale:"1.2"}}}/>
-        <DeleteOutlineIcon onClick={()=> deleteStockData('firms', id)} sx={{cursor: "pointer", color:"red", "&:hover": {scale:"1.2"}}}/>
+      <Typography variant="body2" color="text.secondary">
+        {firm.phone}
+      </Typography>
+
+      <CardActions>
+        <EditIcon
+          sx={btnStyle}
+          onClick={() => {
+            handleOpen()
+            setInfo(firm)
+          }}
+        />
+        <DeleteOutlineIcon
+          sx={btnStyle}
+          onClick={() => deleteStockData("firms", firm.id)}
+        />
       </CardActions>
     </Card>
-  );
+  )
 }

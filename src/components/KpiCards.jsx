@@ -1,55 +1,86 @@
-import { Card, Metric, Text, Icon, Flex, Grid } from "@tremor/react";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn"
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
+import PaymentsIcon from "@mui/icons-material/Payments"
+import { deepPurple, pink, amber } from "@mui/material/colors"
+import { Paper, Grid, Avatar, Typography, Box } from "@mui/material"
+import { useSelector } from "react-redux"
+const KpiCards = () => {
+  const { sales, purchases } = useSelector((state) => state.stock)
 
-import { TicketIcon } from "@heroicons/react/solid";
-import { useSelector } from "react-redux";
-import { FaMoneyCheckAlt } from "react-icons/fa";
-import { PiShoppingCartDuotone } from "react-icons/pi";
+  const totalSales = sales
+    ?.map((item) => Number(item.price_total))
+    .reduce((acc, sale) => acc + sale, 0)
 
+  const totalPurchases = purchases
+    ?.map((item) => Number(item.price_total))
+    .reduce((acc, sale) => acc + sale, 0)
 
-export default function KpiCards() {
-    
-    const {sales, purchases} = useSelector(state => state.stock)
-    
-    const totalSales = sales?.reduce((acc, item) => acc + Number(item.price_total), 0)
-    const totalPurchases = purchases?.reduce((acc, item) => acc + Number(item.price_total), 0)
-    const totalProfit = totalSales - totalPurchases;
+  const cardData = [
+    {
+      id: 1,
+      icon: <MonetizationOnIcon sx={{ fontSize: "2rem" }} />,
+      bgColor: deepPurple[100],
+      color: deepPurple[700],
+      title: "sales",
+      value: `$${totalSales}`,
+    },
+    {
+      id: 2,
+      icon: <ShoppingCartIcon sx={{ fontSize: "2rem" }} />,
+      bgColor: pink[100],
+      color: pink[700],
+      title: "profit",
+      value: `$${totalSales - totalPurchases}`,
+    },
+    {
+      id: 3,
+      icon: <PaymentsIcon sx={{ fontSize: "2rem" }} />,
+      bgColor: amber[100],
+      color: amber[700],
+      title: "purchases",
+      value: `$${totalPurchases}`,
+    },
+  ]
 
-    
-    const categories = [
-        {
-          title: "Sales",
-          metric: `€ ${totalSales}`,
-          icon: TicketIcon,
-          color: "indigo",
-        },
-        {
-          title: "Profit",
-          metric: `€ ${totalProfit}`,
-          icon: FaMoneyCheckAlt,
-          color: "lime",
-
-        },
-        {
-          title: "Purchases",
-          metric: `€ ${totalPurchases}`,
-          icon: PiShoppingCartDuotone,
-          color: "fuchsia",
-        },
-      ];
-      
   return (
-    <Grid  numItemsSm={2} numItemsLg={3} className="gap-6 mt-5">
-      {categories.map((item) => (
-        <Card key={item.title} decoration="top" decorationColor={item.color}>
-          <Flex justifyContent="start" className="space-x-4">
-            <Icon icon={item.icon} variant="light" size="xl" color={item.color} />
-            <div className="truncate">
-              <Text>{item.title}</Text>
-              <Metric className="truncate">{item.metric}</Metric>
-            </div>
-          </Flex>
-        </Card>
+    <Grid container justifyContent="center" spacing={2}>
+      {cardData.map((item) => (
+        <Grid item key={item.id}>
+          <Paper
+            sx={{
+              display: "flex",
+              gap: 3,
+              p: 2,
+              alignItems: "center",
+              justifyContent: "center",
+              width: "280px",
+            }}
+            elevation={5}
+          >
+            <Avatar
+              sx={{
+                bgcolor: item.bgColor,
+                color: item.color,
+                width: "70px",
+                height: "70px",
+              }}
+            >
+              {item.icon}
+            </Avatar>
+
+            <Box>
+              <Typography variant="button" mb={2}>
+                {item.title}
+              </Typography>
+              <Typography variant="h4" mb={2}>
+                {item.value}
+              </Typography>
+            </Box>
+          </Paper>
+        </Grid>
       ))}
     </Grid>
-  );
+  )
 }
+
+export default KpiCards

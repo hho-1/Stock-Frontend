@@ -1,130 +1,97 @@
-
-import { useDispatch } from 'react-redux';
-import { fetchFail, fetchStart, getProCatBrandSuccess, getSuccess, getPurSalesSuccess } from '../features/stockSlice';
-//import axios from 'axios';
-import { toastErrorNotify, toastSuccessNotify } from '../helper/ToastNotify';
-import useAxios from './useAxios';
+import {
+  fetchFail,
+  fetchStart,
+  getStockSuccess,
+  getProdCatBrandsSuccess,
+} from "../features/stockSlice"
+import { useDispatch } from "react-redux"
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify"
+import useAxios from "./useAxios"
 
 const useStockCall = () => {
-  const dispatch = useDispatch();
-  //const { token } = useSelector(state => state.auth);
-  const {axiosWithToken} = useAxios()
-
-  //const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const dispatch = useDispatch()
+  const { axiosWithToken } = useAxios()
 
   const getStockData = async (url) => {
-    dispatch(fetchStart());
+    dispatch(fetchStart())
     try {
-      //const url = "firms";
-      /* const { data } = await axios(`${BASE_URL}stock/${url}/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      }); */
-      const { data } = await axiosWithToken(`stock/${url}/`);
-      
-      // dispatch(getSuccess({data, url:"firms"}))
-      dispatch(getSuccess({ data, url })); // {data:data,url:url}
+      const { data } = await axiosWithToken(`/stock/${url}/`)
+      dispatch(getStockSuccess({ data, url }))
     } catch (error) {
-      dispatch(fetchFail());
+      dispatch(fetchFail())
+      console.log(error)
     }
-  };
+  }
+
   const deleteStockData = async (url, id) => {
-    dispatch(fetchStart());
+    dispatch(fetchStart())
     try {
-      //const url = "firms";
-      /* const { data } = await axios.delete(`${BASE_URL}stock/${url}/${id}/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      }); */
-      const { data } = await axiosWithToken.delete(`stock/${url}/${id}/`);
-      console.log(data);
-      // dispatch(getSuccess({data, url:"firms"}))
+      await axiosWithToken.delete(`/stock/${url}/${id}/`)
+      toastSuccessNotify(`${url} succesfuly deleted`)
       getStockData(url)
-      toastSuccessNotify(`${url} successfully deleted!`)
     } catch (error) {
-      dispatch(fetchFail());
-      toastErrorNotify(`${url} could NOT be deleted!`)
+      dispatch(fetchFail())
+      toastErrorNotify(`${url} can not be deleted`)
+      console.log(error)
     }
-  };
-  const postStockData = async (url, firmData) => {
-    dispatch(fetchStart());
+  }
+
+  const postStockData = async (url, info) => {
+    dispatch(fetchStart())
     try {
-      
-      const { data } = await axiosWithToken.post(`stock/${url}/`, firmData);
-      console.log(data);
-      // dispatch(getSuccess({data, url:"firms"}))
+      await axiosWithToken.post(`/stock/${url}/`, info)
+      toastSuccessNotify(`${url} succesfuly posted`)
       getStockData(url)
-      toastSuccessNotify(`${url} successfully created!`)
     } catch (error) {
-      dispatch(fetchFail());
-      toastErrorNotify(`${url} could NOT be created!`)
+      dispatch(fetchFail())
+      toastErrorNotify(`${url} can not be posted`)
+      console.log(error)
     }
-  };
+  }
 
-  const putStockData = async (url, firmData) => {
-    dispatch(fetchStart());
+  const putStockData = async (url, info) => {
+    dispatch(fetchStart())
     try {
-      await axiosWithToken.put(`stock/${url}/${firmData.id}/`, firmData);
-
-      getStockData(url);
-      toastSuccessNotify(`${url} successfuly updated!`);
+      await axiosWithToken.put(`/stock/${url}/${info.id}/`, info)
+      toastSuccessNotify(`${url} succesfuly updated`)
+      getStockData(url)
     } catch (error) {
-      dispatch(fetchFail());
-      toastErrorNotify(`${url} could NOT be updated!`);
+      dispatch(fetchFail())
+      toastErrorNotify(`${url} can not be updated`)
+      console.log(error)
     }
-  };
-
-
-  //!Promise All 
-
-  const getProPurcSalesCatBrand = async (url) => {
-    dispatch(fetchStart());
+  }
+  // ? Products, categories ve brands isteklerinin Promise.all ile es zamanli alinmasi.
+  const getProdCatBrands = async () => {
+    dispatch(fetchStart())
     try {
-      
-      //const products = axiosWithToken(`stock/${url}/`);
-      const [firms, products, brands, categories, sales, purchases] = await Promise.all([
-        axiosWithToken(`stock/firms/`),
-        axiosWithToken(`stock/products/`),
-        axiosWithToken(`stock/brands/`),
-        axiosWithToken(`stock/categories/`),
-        axiosWithToken(`stock/sales/`),
-        axiosWithToken(`stock/purchases/`),
-      ]);
-      
-      dispatch(getProCatBrandSuccess([firms?.data, products?.data, brands?.data, categories?.data, sales?.data, purchases?.data]))
+      const [products, categories, brands] = await Promise.all([
+        axiosWithToken("stock/products/"),
+        axiosWithToken("stock/categories/"),
+        axiosWithToken("stock/brands/"),
+      ])
+
+      dispatch(
+        getProdCatBrandsSuccess([
+          products?.data,
+          categories?.data,
+          brands?.data,
+        ])
+      )
     } catch (error) {
-      dispatch(fetchFail());
+      console.log(error)
+      dispatch(fetchFail())
+      toastErrorNotify(`Data can not be fetched`)
     }
-  };
+  }
 
-  const getPurSales = async () => {
-    dispatch(fetchStart());
-    try {
-      const [purchases, sales] = await Promise.all([
-        axiosWithToken.get(`stock/purchases/`),
-        axiosWithToken.get(`stock/sales/`),
-      ]);
-
-      dispatch(getPurSalesSuccess([purchases?.data, sales?.data]));
-    } catch (error) {
-      dispatch(fetchFail());
-    }
-  };
-
-
-
-  return { getStockData, deleteStockData, postStockData, putStockData, getProPurcSalesCatBrand, getPurSales}
+  return {
+    getStockData,
+    deleteStockData,
+    postStockData,
+    putStockData,
+    getProdCatBrands,
+  }
 }
 
 export default useStockCall
-
-// https://react.dev/learn/reusing-logic-with-custom-hooks
-
-//! Birden fazla componentte aynı fonksiyona veya fonksiyonlara ihtiyacım varsa (fetch gibi) ve bu fonksiyonlar içerisinde hooklara ihtiyaç duyuyorsam dispatch,state gibi o zaman custom hook yazmak mantıklıdır.
-//* custom hooklar "use" kelimesiyle başlar.
-//+ custom hooklar jsx return etmez.
-//* custom hookslar parametre alabilirler.
-//? birden fazla değer veya fonksiyon paylaşabiliriz. Eğer tek bir değer veya fonskiyon paylaşacaksak return deger dememiz yeterli. Ama birden fazlaysa o zaman object içerisinde değerlerimi, fonksiyonlarımı paylaşabilirim.
-//? Tek değer paylaştığımızda kullancağımız componentte direk olarka çağırabiliriz. Ama birden fazla değer paylaşıyorsak kullanırken destructuring yapmalıyız.
