@@ -61,10 +61,11 @@ const Register = () => {
             }}
             validationSchema={registerSchema}
             onSubmit={(values, actions) => {
-              register({ ...values })
-              actions.resetForm()
-              actions.setSubmitting(false)
+              register({ ...values });
+              actions.resetForm();
+              actions.setSubmitting(false);
             }}
+            validator={() => ({})}
             component={(props) => <RegisterForm {...props} />}
           ></Formik>
 
@@ -80,7 +81,7 @@ const Register = () => {
         </Grid>
       </Grid>
     </Container>
-  )
+  );
 }
 
 export default Register
