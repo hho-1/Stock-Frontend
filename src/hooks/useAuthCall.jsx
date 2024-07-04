@@ -22,7 +22,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${BASE_URL}account/auth/login/`,
+        `${BASE_URL}/auth/login/`,
         userInfo
       );
       dispatch(loginSuccess(data));
@@ -42,7 +42,7 @@ toastErrorNotify("Login unsuccessful");
       // let headers = {
       //   Authorization: `Token ${token}`,
       // };
-      await axios.post(`${BASE_URL}account/auth/logout/`, null, {
+      await axios.post(`${BASE_URL}/auth/logout/`, null, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -60,7 +60,7 @@ toastErrorNotify("Login unsuccessful");
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${BASE_URL}account/register/`,
+        `${BASE_URL}/register/`,
         userInfo
       );
       dispatch(registerSuccess(data));
