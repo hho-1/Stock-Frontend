@@ -16,7 +16,7 @@ const useAuthCall = () => {
   const navigate = useNavigate();
   const { token } = useSelector(state => state.auth);
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = process.env.VITE_BASE_URL;
 
   const login = async userInfo => {
     dispatch(fetchStart());
