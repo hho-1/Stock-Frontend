@@ -27,7 +27,7 @@ const useAuthCall = () => {
       );
       dispatch(loginSuccess(data));
       toastSuccessNotify("Login successful");
-      navigate("/stock");
+      navigate("/");
       
     } catch (error) {
       dispatch(fetchFail());
@@ -60,12 +60,12 @@ toastErrorNotify("Login unsuccessful");
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `https://stock-backend-0z8s.onrender.com/register/`,
+        `${BASE_URL}/register/`,
         userInfo
       );
       dispatch(registerSuccess(data));
       toastSuccessNotify("Register successful");
-      navigate("/stock");
+      navigate("/");
     } catch (err) {
       dispatch(fetchFail());
       if (err.response.status === 400) {
