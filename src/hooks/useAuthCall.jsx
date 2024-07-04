@@ -87,6 +87,7 @@ const useAuthCall = () => {
         userData
       )
       dispatch(registerSuccess(data))
+      console.log(data)
       toastSuccessNotify("kayit islemi basarili")
       navigate("/stock")
     } catch (error) {
