@@ -60,7 +60,7 @@ toastErrorNotify("Login unsuccessful");
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${BASE_URL}/register/`,
+        `https://stock-backend-0z8s.onrender.com/register/`,
         userInfo
       );
       dispatch(registerSuccess(data));
